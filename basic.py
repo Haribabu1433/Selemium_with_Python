@@ -18,8 +18,8 @@ driver.back()
 time.sleep(5)
 print(driver.title)
 driver.forward()
+print(driver.title)
 
 
-
-#driver.close()
+driver.close()
 driver.quit()
