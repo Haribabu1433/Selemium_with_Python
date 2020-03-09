@@ -11,4 +11,9 @@ driver.get("https://www.google.com")
 print(driver.title)
 #print(driver.current_url)
 
-driver.find_element_by_link_text("Images").click()
+element = driver.find_element_by_link_text("Images")
+print(element.is_displayed())
+print(element.is_enabled())
+print(element.is_selected())
+
+driver.quit()
