@@ -15,3 +15,8 @@ print("number of links in page:",len(links)) # count of links present
 for link in links:
     print(link.text)
 
+driver.find_element(By.LINK_TEXT,"Today's Deals").click()
+#driver.find_element(By.PARTIAL_LINK_TEXT,"Toda").click()
+
+time.sleep(5)
+driver.close()
