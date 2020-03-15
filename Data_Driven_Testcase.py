@@ -1,10 +1,12 @@
 # this test case validates the usernames and passwords taken from excel and writed the result into the excel again
-
 import XLUtils
+import time
 from selenium import webdriver
 from  selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import Select
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
 path = r"C:\Users\hpolicha\Documents\pyexcel\data1.xlsx"
 sheet = "Validation"
@@ -17,8 +19,8 @@ for r in range(2,rows+1):
     username = XLUtils.readData(path,sheet,r,1)
     password = XLUtils.readData(path,sheet,r,2)
     driver.get(webpage)
-    driver.implicitly_wait(10)
     driver.maximize_window()
+    driver.implicitly_wait(15)
     driver.find_element_by_id("email").send_keys(username)
     element = driver.find_element_by_id("pass")
     element.send_keys(password)
@@ -29,10 +31,21 @@ for r in range(2,rows+1):
     else:
         print("testpassed")
         XLUtils.WriteData(path, sheet, r, 3, "passed")
+        time.sleep(3)
+        element = WebDriverWait(driver, 10).until(
+               EC.visibility_of_element_located((By.ID,"pageLoginAnchor"))
+        )
+        driver.execute_script("arguments[0].click()",element)
 
-        driver.find_element_by_id("pageLoginAnchor").click()
+        #element.click()
+        time.sleep(3)
         #driver.find_element(By.XPATH,"//span[contains(text(),'Log out')]").click()
-        driver.find_element_by_xpath("/html/body/div[19]/div/div/div/div/div[1]/div/div/ul/li[14]/a/span/span").click()
+        logout = WebDriverWait(driver, 10).until(
+            EC.visibility_of_element_located((By.XPATH, "//*[@id='js_15']/div/div/ul/li[14]/a"))
+        )
+        #logout = driver.find_element(By.XPATH,"//span[contains(text(), 'Log Out')]")
+        #logout = driver.find_element(By.XPATH,"//*[@id='js_d']/div/div/ul/li[14]/a")
+        driver.execute_script("arguments[0].click()", logout)
 
 
 
